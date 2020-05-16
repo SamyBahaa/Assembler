@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Assembler
 {
-    class Interpreter
+    class Translator
     {
         public List<string> Binaries;
         Read fileRead;
         Write writeFile;
 
-        public Interpreter()
+        public Translator()
         {
             Binaries = new List<string>(256);
             for (int i = 0; i < 256; i++)
@@ -38,7 +38,8 @@ namespace Assembler
             {
                 for (i = 0; i < fileRead.clearFile.Count; i++)
                 {
-                    string Code = "";
+                    string Code    = "";
+                    string subCode = "";
                     string menmonic = fileRead.clearFile[i];
                     menmonic = menmonic.Trim();
                     if (menmonic == "")
@@ -55,6 +56,11 @@ namespace Assembler
                                 datas.RemoveAt(k);
                             }
                             break;
+                        }
+                        else if (datas[j] == "") 
+                        {
+                            datas.RemoveAt(j);
+                            j -= j;
                         }
                     }
 
@@ -135,22 +141,36 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-
-                                Code += "00000000";
-                                //      Binaries[address] = Code;
-                                //      address++;
-                                UInt32 oper2 = System.Convert.ToUInt32(datas[2]);
-                                if (oper2 > 255)
+                                Code += "000";
+                                reg = datas[2];
+                                if (reg == "")
                                 {
-                                    msgError = "you exceed the limit of the memory. The memory is 256 words only";
+                                    msgError = "Unexpected operand: " + reg;
                                     return i;
                                 }
-                                string ea = System.Convert.ToString((byte)oper2, 2);
-                                ea = ea.PadLeft(16, '0');
-                                //Code += ea;
+                                else
+                                {
+
+                                    String binary = EffectiveHexToBin(reg);
+                                    Code += binary;
+                                }
+                                Code += "1";
+                                char[] codeArray = Code.ToCharArray();
+                                Code = "";
+                                for (int k = 0; k < 16 ; k++)
+                                {
+                                    Code += codeArray[k];
+                                }
+                                for (int k = 16; k <32; k++)
+                                {
+                                    subCode += codeArray[k];
+                                }
                                 Binaries[address] = Code;
-                                Binaries[address + 1] = ea;
-                                address += 2;
+                                address++;
+                                Binaries[address] = subCode;
+                                address++;
+
+                               
                                 break;
                             }
                         case "std":
@@ -161,7 +181,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -169,21 +189,33 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-
-                                Code += "00000000";
-                                //Binaries[address] = Code;
-                                //address++;
-                                UInt32 oper2 = System.Convert.ToUInt32(datas[2]);
-                                if (oper2 > 255)
+                                reg = datas[2];
+                                if (reg == "")
                                 {
-                                    msgError = "you exceed the limit of the memory. The memory is 256 bytes only";
+                                    msgError = "Unexpected operand: " + reg;
                                     return i;
                                 }
-                                string ea = System.Convert.ToString((byte)oper2, 2);
-                                ea = ea.PadLeft(16, '0');
+                                else
+                                {
+
+                                    String binary = EffectiveHexToBin(reg);
+                                    Code += binary;
+                                }
+                                Code += "1";
+                                char[] codeArray = Code.ToCharArray();
+                                Code = "";
+                                for (int k = 0; k < 16; k++)
+                                {
+                                    Code += codeArray[k];
+                                }
+                                for (int k = 16; k < 32; k++)
+                                {
+                                    subCode += codeArray[k];
+                                }
                                 Binaries[address] = Code;
-                                Binaries[address + 1] = ea;
-                                address += 2;
+                                address++;
+                                Binaries[address] = subCode;
+                                address++;
                                 break;
                             }
                         case "ldm":
@@ -202,37 +234,54 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-
-                                Code += "00000000";
-                                //        Binaries[address] = Code;
-                                //        address++;
-                                int oper2 = System.Convert.ToInt32(datas[2]);
-                                if (oper2 > (255 * 2) || oper2 < (-128 * 2)) // needed to check 
+                                Code += "000";
+                                reg = datas[2];
+                                if (reg == "")
                                 {
-                                    msgError = "The value couldn't be fit in one word";
+                                    msgError = "Unexpected operand: " + reg;
                                     return i;
                                 }
-                                string imm = System.Convert.ToString((byte)oper2, 2);// replace byte by word
-                                if (oper2 >= 0)
-                                    imm = imm.PadLeft(16, '0');
                                 else
-                                    imm = imm.PadLeft(16, '1');
+                                {
 
+                                    String binary = ImmediateHexToBin(reg);
+                                    Code += binary;
+                                }
+                                Code += "00001";
+                                char[] codeArray = Code.ToCharArray();
+                                Code = "";
+                                for (int k = 0; k < 16; k++)
+                                {
+                                    Code += codeArray[k];
+                                }
+                                for (int k = 16; k < 32; k++)
+                                {
+                                    subCode += codeArray[k];
+                                }
                                 Binaries[address] = Code;
-                                Binaries[address + 1] = imm;
-                                address += 2;
+                                address++;
+                                Binaries[address] = subCode;
+                                address++;
+                               
                                 break;
                             }
                         case "add":
                             {
                                 Code = InstructionsOpcode.ADD;
-                                if (datas.Count != 3)
+                                if (datas.Count != 4)
                                 {
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
 
-                                string reg = FetchOperand(datas[1]);
+                                string reg = FetchOperand(datas[3]);
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else Code += reg;
+                                reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
                                     msgError = "Unexpected operand: " + reg;
@@ -246,7 +295,7 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000";
+                                Code += "00";
                                 Binaries[address] = Code;
                                 address++;
 
@@ -261,22 +310,46 @@ namespace Assembler
                                     return i;
                                 }
 
-                                string reg = FetchOperand(datas[1]);
+                                string reg = FetchOperand(datas[2]);
                                 if (reg == "")
                                 {
                                     msgError = "Unexpected operand: " + reg;
                                     return i;
                                 }
                                 else Code += reg;
-                                reg = FetchOperand(datas[2]);
+                                reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
                                     msgError = "Unexpected operand: " + reg;
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000";
+                                reg = datas[3];
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else
+                                {
+
+                                    String binary = ImmediateHexToBin(reg);
+                                    Code += binary;
+                                }
+                                Code += "00001";
+                                char[] codeArray = Code.ToCharArray();
+                                Code = "";
+                                for (int k = 0; k < 16 ; k++)
+                                {
+                                    Code += codeArray[k];
+                                }
+                                for (int k = 16; k <32; k++)
+                                {
+                                    subCode += codeArray[k];
+                                }
                                 Binaries[address] = Code;
+                                address++;
+                                Binaries[address] = subCode;
                                 address++;
 
                                 break;
@@ -284,13 +357,20 @@ namespace Assembler
                         case "sub":
                             {
                                 Code = InstructionsOpcode.SUB;
-                                if (datas.Count != 3)
+                                if (datas.Count != 4)
                                 {
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
 
-                                string reg = FetchOperand(datas[1]);
+                                string reg = FetchOperand(datas[3]);
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else Code += reg;
+                                reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
                                     msgError = "Unexpected operand: " + reg;
@@ -304,7 +384,7 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000";
+                                Code += "00";
                                 Binaries[address] = Code;
                                 address++;
 
@@ -313,13 +393,20 @@ namespace Assembler
                         case "and":
                             {
                                 Code = InstructionsOpcode.AND;
-                                if (datas.Count != 3)
+                                if (datas.Count != 4)
                                 {
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
 
-                                string reg = FetchOperand(datas[1]);
+                                string reg = FetchOperand(datas[3]);
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else Code += reg;
+                                reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
                                     msgError = "Unexpected operand: " + reg;
@@ -333,7 +420,7 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000";
+                                Code += "00";
                                 Binaries[address] = Code;
                                 address++;
 
@@ -343,13 +430,20 @@ namespace Assembler
                         case "or":
                             {
                                 Code = InstructionsOpcode.OR;
-                                if (datas.Count != 3)
+                                if (datas.Count != 4)
                                 {
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
 
-                                string reg = FetchOperand(datas[1]);
+                                string reg = FetchOperand(datas[3]);
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else Code += reg;
+                                reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
                                     msgError = "Unexpected operand: " + reg;
@@ -363,8 +457,36 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000";
+                                Code += "00";
+                                Binaries[address] = Code;
+                                address++;
 
+                                break;
+                            }
+                        case "swap":
+                            {
+                                Code = InstructionsOpcode.SWAP;
+                                if (datas.Count != 3)
+                                {
+                                    msgError = "Unexpected number of operands";
+                                    return i;
+                                }
+
+                                string reg = FetchOperand(datas[2]);
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else Code += reg;
+                                reg = FetchOperand(datas[1]);
+                                if (reg == "")
+                                {
+                                    msgError = "Unexpected operand: " + reg;
+                                    return i;
+                                }
+                                else Code += reg;
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
 
@@ -378,7 +500,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -387,7 +509,7 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
@@ -402,7 +524,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -411,7 +533,7 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
@@ -426,7 +548,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -435,97 +557,22 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
 
                                 break;
                             }
-                      /*  case "neg":
-                            {
-                                Code = InstructionsOpcode.NEG;
-                                if (datas.Count != 2)
-                                {
-                                    msgError = "Unexpected number of operands";
-                                    return i;
-                                }
-
-                                string reg = FetchOperand(datas[1]);
-                                if (reg == "")
-                                {
-                                    msgError = "Unexpected operand: " + reg;
-                                    return i;
-                                }
-                                else Code += reg;
-
-                                Code += "00000000";
-
-                                Binaries[address] = Code;
-                                address++;
-
-                                break;
-                            }
-
-                        case "rlc":
-                            {
-                                Code = InstructionsOpcode.RLC;
-                                if (datas.Count != 2)
-                                {
-                                    msgError = "Unexpected number of operands";
-                                    return i;
-                                }
-
-                                string reg = FetchOperand(datas[1]);
-                                if (reg == "")
-                                {
-                                    msgError = "Unexpected operand: " + reg;
-                                    return i;
-                                }
-                                else Code += reg;
-
-                                Code += "00000000";
-
-                                Binaries[address] = Code;
-                                address++;
-
-                                break;
-                            }
-                        case "rrc":
-                            {
-                                Code = InstructionsOpcode.RRC;
-
-                                if (datas.Count != 2)
-                                {
-                                    msgError = "Unexpected number of operands";
-                                    return i;
-                                }
-
-                                string reg = FetchOperand(datas[1]);
-                                if (reg == "")
-                                {
-                                    msgError = "Unexpected operand: " + reg;
-                                    return i;
-                                }
-                                else Code += reg;
-
-                                Code += "00000000";
-
-                                Binaries[address] = Code;
-                                address++;
-
-                                break;
-                            }*/
-                        //###################################################################################################################//
                         case "shr":
                             {
                                 Code = InstructionsOpcode.SHR;
-                                if (datas.Count != 4)
+                                if (datas.Count != 3)
                                 {
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -533,33 +580,45 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-
-                                Code += "00000000"; // fen l Immediate value  ? 
-
-                                UInt32 oper2 = System.Convert.ToUInt32(datas[2]);
-                                if (oper2 > 255)
+                                reg = datas[2];
+                                if (reg == "")
                                 {
-                                    msgError = "you exceed the limit of the memory. The memory is 256 words only";
+                                    msgError = "Unexpected operand: " + reg;
                                     return i;
                                 }
-                                string ea = System.Convert.ToString((byte)oper2, 2);
-                                ea = ea.PadLeft(16, '0');
-                                //Code += ea;
+                                else
+                                {
+
+                                    String binary = ImmediateHexToBin(reg);
+                                    Code += binary;
+                                }
+                                Code += "00001";
+                                char[] codeArray = Code.ToCharArray();
+                                Code = "";
+                                for (int k = 0; k < 16; k++)
+                                {
+                                    Code += codeArray[k];
+                                }
+                                for (int k = 16; k < 32; k++)
+                                {
+                                    subCode += codeArray[k];
+                                }
                                 Binaries[address] = Code;
-                                Binaries[address + 1] = ea;
-                                address += 2;
+                                address++;
+                                Binaries[address] = subCode;
+                                address++;
                                 break;
 
                             }
                         case "shl":
                             {
                                 Code = InstructionsOpcode.SHL;
-                                if (datas.Count != 4)
+                                if (datas.Count != 3)
                                 {
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -567,29 +626,35 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                string reg2 = FetchOperand(datas[3]);
-                                  if (reg2 == "")
+                                 reg = datas[2];
+                                 if (reg == "")
                                 {
                                     msgError = "Unexpected operand: " + reg;
                                     return i;
                                 }
-                                else Code += reg2;
-                                 Code += "00000";
-                                UInt32 oper2 = System.Convert.ToUInt32(datas[2]);                                
-                                if (oper2 > 255)
+                                 else
                                 {
-                                    msgError = "you exceed the limit of the memory. The memory is 256 words only";
-                                    return i;
+
+                                    String binary = ImmediateHexToBin(reg);
+                                    Code += binary;
                                 }
-                           
-                                string ea = System.Convert.ToString((byte)oper2, 2);
-                                ea = ea.PadLeft(16, '0');                                
+                                Code += "00001";
+                                char[] codeArray = Code.ToCharArray();
+                                Code = "";
+                                for (int k = 0; k < 16 ; k++)
+                                {
+                                    Code += codeArray[k];
+                                }
+                                for (int k = 16; k <32; k++)
+                                {
+                                    subCode += codeArray[k];
+                                }
                                 Binaries[address] = Code;
-                                Binaries[address + 1] = ea;
-                                address += 2;
+                                address++;
+                                Binaries[address] = subCode;
+                                address++;
                                 break;
                             }
-                        //###################################################################################################################//
                         case "push":
                             {
                                 Code = InstructionsOpcode.PUSH;
@@ -599,7 +664,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -608,7 +673,7 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
@@ -648,7 +713,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -657,7 +722,7 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
 
                                 Binaries[address] = Code;
                                 address++;
@@ -689,36 +754,6 @@ namespace Assembler
 
                                 break;
                             }
-                        /*case "mov":
-                            {
-                                Code = InstructionsOpcode.MOV;
-                                if (datas.Count != 3)
-                                {
-                                    msgError = "Unexpected number of operands";
-                                    return i;
-                                }
-
-                                string reg = FetchOperand(datas[1]);
-                                if (reg == "")
-                                {
-                                    msgError = "Unexpected operand: " + reg;
-                                    return i;
-                                }
-                                else Code += reg;
-                                reg = FetchOperand(datas[2]);
-                                if (reg == "")
-                                {
-                                    msgError = "Unexpected operand: " + reg;
-                                    return i;
-                                }
-                                else Code += reg;
-                                Code += "00000";
-
-                                Binaries[address] = Code;
-                                address++;
-
-                                break;
-                            }*/
                         case "jmp":
                             {
                                 Code = InstructionsOpcode.JMP;
@@ -727,7 +762,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -736,7 +771,7 @@ namespace Assembler
                                 }
                                 else Code += reg;
 
-                                Code += "00000000";
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
 
@@ -750,7 +785,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -758,7 +793,7 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000000";
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
 
@@ -772,7 +807,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -780,7 +815,7 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000000";
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
 
@@ -794,7 +829,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -802,7 +837,7 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000000";
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
 
@@ -816,7 +851,7 @@ namespace Assembler
                                     msgError = "Unexpected number of operands";
                                     return i;
                                 }
-
+                                Code += "000";
                                 string reg = FetchOperand(datas[1]);
                                 if (reg == "")
                                 {
@@ -824,7 +859,7 @@ namespace Assembler
                                     return i;
                                 }
                                 else Code += reg;
-                                Code += "00000000";
+                                Code += "00000";
                                 Binaries[address] = Code;
                                 address++;
 
@@ -942,5 +977,175 @@ namespace Assembler
                 return "111";
             else return "";
         }
+
+        static string ImmediateHexToBin(string s)
+        {
+            char[] hexdec = s.ToCharArray();
+            string Code=""; 
+            int i = 0;
+
+            while (i < hexdec.Length)
+            {
+                
+                switch (hexdec[i])
+                {
+                    case '0':
+                        Code += "0000";
+                        break;
+                    case '1':
+                        Code += "0001";
+                        break;
+                    case '2':
+                        Code +="0010";
+                        break;
+                    case '3':
+                        Code += "0011";
+                        break;
+                    case '4':
+                        Code += "0100";
+                        break;
+                    case '5':
+                        Code +="0101";
+                        break;
+                    case '6':
+                        Code +="0110";
+                        break;
+                    case '7':
+                        Code +="0111";
+                        break;
+                    case '8':
+                        Code +="1000";
+                        break;
+                    case '9':
+                        Code +="1001";
+                        break;
+                    case 'A':
+                    case 'a':
+                        Code +="1010";
+                        break;
+                    case 'B':
+                    case 'b':
+                        Code +="1011";
+                        break;
+                    case 'C':
+                    case 'c':
+                        Code +="1100";
+                        break;
+                    case 'D':
+                    case 'd':
+                        Code +="1101";
+                        break;
+                    case 'E':
+                    case 'e':
+                        Code +="1110";
+                        break;
+                    case 'F':
+                    case 'f':
+                        Code +="1111";
+                        break;
+                }
+                i++;
+            }
+            if (i == 1)
+            {
+                Code += "000000000000";
+            }
+            else if(i== 2)
+            {
+                Code += "00000000";
+            }
+            else if (i == 3)
+            {
+                Code += "0000";
+            }
+            return Code;
+        }
+
+        static string EffectiveHexToBin(string s)
+        {
+            char[] hexdec = s.ToCharArray();
+            string Code = "";
+            int i = 0;
+
+            while (i < hexdec.Length)
+            {
+
+                switch (hexdec[i])
+                {
+                    case '0':
+                        Code += "0000";
+                        break;
+                    case '1':
+                        Code += "0001";
+                        break;
+                    case '2':
+                        Code += "0010";
+                        break;
+                    case '3':
+                        Code += "0011";
+                        break;
+                    case '4':
+                        Code += "0100";
+                        break;
+                    case '5':
+                        Code += "0101";
+                        break;
+                    case '6':
+                        Code += "0110";
+                        break;
+                    case '7':
+                        Code += "0111";
+                        break;
+                    case '8':
+                        Code += "1000";
+                        break;
+                    case '9':
+                        Code += "1001";
+                        break;
+                    case 'A':
+                    case 'a':
+                        Code += "1010";
+                        break;
+                    case 'B':
+                    case 'b':
+                        Code += "1011";
+                        break;
+                    case 'C':
+                    case 'c':
+                        Code += "1100";
+                        break;
+                    case 'D':
+                    case 'd':
+                        Code += "1101";
+                        break;
+                    case 'E':
+                    case 'e':
+                        Code += "1110";
+                        break;
+                    case 'F':
+                    case 'f':
+                        Code += "1111";
+                        break;
+                }
+                i++;
+            }
+            if (i == 1)
+            {
+                Code += "0000000000000000";
+            }
+            else if (i == 2)
+            {
+                Code += "000000000000";
+            }
+            else if (i == 3)
+            {
+                Code += "00000000";
+            }
+            else if (i == 4)
+            {
+                Code += "0000";
+            }
+            return Code;
+        } 
     }
 }

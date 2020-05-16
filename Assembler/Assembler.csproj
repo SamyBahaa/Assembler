@@ -59,9 +59,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interpreter.cs" />
+    <Compile Include="Translator.cs" />
     <Compile Include="Opcodes.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="MainEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -42,3 +42,9 @@ D:\CUFE\6th_Semester\CMPN301_Computer Architecture\old\project 18\Project_Comput
 D:\CUFE\6th_Semester\CMPN301_Computer Architecture\old\project 18\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache
 D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.exe
 D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.pdb
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.csprojResolveAssemblyReference.cache
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.Form1.resources
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\bin\Debug\Assembler.exe
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\bin\Debug\Assembler.pdb

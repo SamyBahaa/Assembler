@@ -14,9 +14,9 @@ namespace Assembler
         public Form1()
         {
             InitializeComponent();
-            converter = new Interpreter();
+            converter = new Translator();
         }
-        Interpreter converter;
+        Translator converter;
         private void loadProgram_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();

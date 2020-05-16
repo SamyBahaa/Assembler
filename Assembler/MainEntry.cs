@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Assembler
 {
-    static class Program
+    static class MainEntry
     {
         /// <summary>
         /// The main entry point for the application.
