@@ -13,15 +13,15 @@ namespace Assembler
 
         public Translator()
         {
-            Binaries = new List<string>(256);
-            for (int i = 0; i < 256; i++)
+            Binaries = new List<string>(4096);
+            for (int i = 0; i < 4096; i++)
                 Binaries.Add("0000000000000000");
             writeFile = new Write();
         }
 
         public void Clear()
         {
-            for (int i = 0; i < 256; i++)
+            for (int i = 0; i < 4096; i++)
             {
                 Binaries[i] = "0000000000000000";
             }
@@ -38,26 +38,37 @@ namespace Assembler
             {
                 for (i = 0; i < fileRead.clearFile.Count; i++)
                 {
-                    string Code    = "";
-                    string subCode = "";
+                    string Code     = "";
+                    string subCode  = "";
+                    char[] dataChar ;
                     string menmonic = fileRead.clearFile[i];
                     menmonic = menmonic.Trim();
                     if (menmonic == "")
                         continue;
                     List<string> datas = menmonic.Split(' ').ToList();
                     if (datas[0] == "#")
-                        continue;
+                    { continue; }
+                    dataChar = datas[0].ToCharArray();
+                    if (dataChar[0].ToString() == "#")
+                    { continue; }
+
                     for (int j = 0; j < datas.Count; j++)
                     {
-                        if (datas[j] == "#")
-                        {                            
-                            for (int k = j; k < datas.Count; k++)
+                         dataChar = datas[j].ToCharArray();
+                        if ( dataChar.Length != 0)
+                        {
+                            if (dataChar[0].ToString() == "#")
                             {
-                                datas.RemoveAt(k);
+
+                                int counter = datas.Count;
+                                for (int k = counter - 1; k >= j; k--)
+                                {
+                                    datas.RemoveAt(k);
+                                }
+                                break;
                             }
-                            break;
                         }
-                        else if (datas[j] == "") 
+                        else if (datas[j] == "")
                         {
                             datas.RemoveAt(j);
                             j -= j;
@@ -84,6 +95,19 @@ namespace Assembler
                     {
                         case "":
                             {
+                                break;
+                            }
+                        case ".org":
+                            {
+                                if (datas.Count != 2)
+                                {
+                                    msgError = "Unexpected Operand";
+                                    return i;
+                                }
+                                
+                                    address = UInt16.Parse(datas[1]);
+                                
+
                                 break;
                             }
                         case "nop":
@@ -898,48 +922,16 @@ namespace Assembler
                             }
                         default:
                             {
-                                Int32 Num;
-                                if (opcode[0] == '.' && datas.Count == 1)
-                                {
-                                    UInt16 add = (UInt16)System.Convert.ToInt16(opcode.Substring(1));
-                                    if (add > 255)
-                                    {
-                                        msgError = "you exceed the limit of the memory. The memory is 256 bytes only";
-                                        return i;
-                                    }
-                                    else
-                                    {
-                                        address = add;
-                                        break;
-                                    }
-                                }
-                                else if (Int32.TryParse(opcode, out Num))
-                                {
-                                    if (Num > 65535 || Num < -32768)
-                                    {
-                                        msgError = "The value couldn't be fit in one word";
-                                        return i;
-                                    }
-                                    else
-                                    {
-                                        Code = System.Convert.ToString(Num, 2);
-                                        if (Num >= 0)
-                                            Code = Code.PadLeft(16, '0');
-                                        else
-                                            Code = Code.PadLeft(16, '1');
-                                        Binaries[address] = Code;
-                                        address++;
-                                        break;
-                                    }
-                                }
-                                msgError = "Unknown Instruction " + datas[0];
-                                return i;
-
+                                String binary = HexToBin(datas[0]);
+                                Code += binary;
+                                Binaries[address] = Code;
+                                address++;
+                                break;
                             }
                     }
-                    if (address > 255)
+                    if (address > 4095)
                     {
-                        msgError = "you exceed the limit of the memory. The memory is 256 bytes only";
+                        msgError = "you exceed the limit of the memory. The memory is 4096 bytes only";
                         return i;
                     }
                 }
@@ -956,6 +948,7 @@ namespace Assembler
             }
 
         }
+
 
         public string FetchOperand(string s)
         {
@@ -1057,6 +1050,89 @@ namespace Assembler
             else if (i == 3)
             {
                 Code += "0000";
+            }
+            return Code;
+        }
+
+        static string HexToBin(string s)
+        {
+            char[] hexdec = s.ToCharArray();
+            string Code = "";
+            int i = 0;
+
+            while (i < hexdec.Length)
+            {
+
+                switch (hexdec[i])
+                {
+                    case '0':
+                        Code += "0000";
+                        break;
+                    case '1':
+                        Code += "0001";
+                        break;
+                    case '2':
+                        Code += "0010";
+                        break;
+                    case '3':
+                        Code += "0011";
+                        break;
+                    case '4':
+                        Code += "0100";
+                        break;
+                    case '5':
+                        Code += "0101";
+                        break;
+                    case '6':
+                        Code += "0110";
+                        break;
+                    case '7':
+                        Code += "0111";
+                        break;
+                    case '8':
+                        Code += "1000";
+                        break;
+                    case '9':
+                        Code += "1001";
+                        break;
+                    case 'A':
+                    case 'a':
+                        Code += "1010";
+                        break;
+                    case 'B':
+                    case 'b':
+                        Code += "1011";
+                        break;
+                    case 'C':
+                    case 'c':
+                        Code += "1100";
+                        break;
+                    case 'D':
+                    case 'd':
+                        Code += "1101";
+                        break;
+                    case 'E':
+                    case 'e':
+                        Code += "1110";
+                        break;
+                    case 'F':
+                    case 'f':
+                        Code += "1111";
+                        break;
+                }
+                i++;
+            }
+            if (i == 1)
+            {
+                Code = "000000000000" + Code; ;
+            }
+            else if (i == 2)
+            {
+                Code = "00000000" + Code;
+            }
+            else if (i == 3)
+            {
+                Code = "0000" + Code;
             }
             return Code;
         }

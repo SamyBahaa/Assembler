@@ -17,18 +17,12 @@ namespace Assembler
             Iwriter = new StreamWriter(TextPath);
             Iwriter.WriteLine(DEFAULT_TEXT);
             int i;
-            for ( i = 0; i <= 9; i++)
+            for ( i = 0; i <= 4095; i++)
             {
                     Iwriter.WriteLine("  "+ i +": "+data[i]);
             }
-            for ( i = 10; i <= 99; i++)
-            {
-                    Iwriter.WriteLine(" " + i + ": " + data[i]);
-            }
-            for (i = 100; i <= 255; i++)
-            {
-                    Iwriter.WriteLine( i + ": " + data[i]);
-            }
+         
+           
             Iwriter.Close();
         }
     }
