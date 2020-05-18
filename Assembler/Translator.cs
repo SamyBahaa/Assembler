@@ -8,15 +8,18 @@ namespace Assembler
     class Translator
     {
         public List<string> Binaries;
+        public List<string> DataMemory; 
         Read fileRead;
-        Write writeFile;
-
+        Write writeInstructionMemoryFile;
+        Write writeDataMemoryFile;
         public Translator()
         {
             Binaries = new List<string>(4096);
             for (int i = 0; i < 4096; i++)
                 Binaries.Add("0000000000000000");
-            writeFile = new Write();
+            DataMemory = new List<string>(4096);
+            writeInstructionMemoryFile = new Write();
+            writeDataMemoryFile = new Write();
         }
 
         public void Clear()
@@ -936,10 +939,21 @@ namespace Assembler
                     }
                 }
 
+                
+                for (int k = 0; k < 4; k++)
+                    DataMemory.Add(Binaries[k]);
+                for (int k = 4; k < 4096; k++)
+                    DataMemory.Add("0000000000000000");
+
                 int index = text.LastIndexOf('.');
-                string path = text.Substring(0, index + 1);
-                path += "mem";
-                writeFile.WriteFile(path, Binaries);
+                string path_IM = text.Substring(0, index );//index + 1
+                path_IM += "_InstructionMemory.mem";
+                writeInstructionMemoryFile.WriteFile(path_IM, Binaries);
+               
+                string path_DM = text.Substring(0, index);//index + 1
+                path_DM += "_DataMemory.mem";
+                writeDataMemoryFile.WriteFile(path_DM, DataMemory);
+
                 return -1;
             }
             catch (Exception exc)

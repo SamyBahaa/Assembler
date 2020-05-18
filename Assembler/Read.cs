@@ -39,7 +39,13 @@ namespace Assembler
                     file[i] = file[i].Split(';')[0];
                 }
                 if (file[i].Contains('\r'))
+                {
                     file[i] = file[i].Split('\r')[0];
+                }
+                if (file[i].Contains('\t'))
+                {
+                    file[i] = file[i].Split('\t')[0];
+                }    
             }
         }
     }
