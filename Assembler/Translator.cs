@@ -107,8 +107,8 @@ namespace Assembler
                                     msgError = "Unexpected Operand";
                                     return i;
                                 }
-                                
-                                    address = UInt16.Parse(datas[1]);
+
+                                address = (UInt16)System.Convert.ToInt32(datas[1], 16);
                                 
 
                                 break;
@@ -1055,15 +1055,15 @@ namespace Assembler
             }
             if (i == 1)
             {
-                Code += "000000000000";
+                Code = "000000000000" + Code;
             }
             else if(i== 2)
             {
-                Code += "00000000";
+                Code = "00000000" + Code;
             }
             else if (i == 3)
             {
-                Code += "0000";
+                Code = "0000" + Code;
             }
             return Code;
         }
@@ -1221,19 +1221,19 @@ namespace Assembler
             }
             if (i == 1)
             {
-                Code += "0000000000000000";
+                Code = "0000000000000000" + Code;
             }
             else if (i == 2)
             {
-                Code += "000000000000";
+                Code = "000000000000" + Code;
             }
             else if (i == 3)
             {
-                Code += "00000000";
+                Code = "00000000" + Code;
             }
             else if (i == 4)
             {
-                Code += "0000";
+                Code = "0000" + Code;
             }
             return Code;
         } 
