@@ -1,0 +1,50 @@
+C:\Users\Administrator\Desktop\uni\Arch\khairyAssembler\Assembler\Assembler\bin\Debug\Assembler.exe
+C:\Users\Administrator\Desktop\uni\Arch\khairyAssembler\Assembler\Assembler\obj\Debug\Assembler.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\uni\Arch\khairyAssembler\Assembler\Assembler\obj\Debug\Assembler.Form1.resources
+C:\Users\Administrator\Desktop\uni\Arch\khairyAssembler\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
+C:\Users\Administrator\Desktop\uni\Arch\khairyAssembler\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\uni\Arch\khairyAssembler\Assembler\Assembler\obj\Debug\Assembler.exe
+C:\Users\Administrator\Desktop\uni\Arch\khairyAssembler\Assembler\Assembler\obj\Debug\Assembler.pdb
+C:\Users\Administrator\Desktop\uni\Arch\khairyAssembler\Assembler\Assembler\bin\Debug\Assembler.pdb
+G:\Assembler\Assembler\obj\Debug\Assembler.exe
+G:\Assembler\Assembler\obj\Debug\Assembler.pdb
+C:\Users\Ahmed\Desktop\Assembler +Testcase\Assembler\Assembler\obj\Debug\Assembler.exe
+C:\Users\Ahmed\Desktop\Assembler +Testcase\Assembler\Assembler\obj\Debug\Assembler.pdb
+C:\Users\Ahmed\Desktop\Assembler +Testcase\Assembler\Assembler\bin\Debug\Assembler.exe
+C:\Users\Ahmed\Desktop\Assembler +Testcase\Assembler\Assembler\bin\Debug\Assembler.pdb
+C:\Users\Ahmed\Desktop\Assembler +Testcase\Assembler\Assembler\obj\Debug\Assembler.csprojResolveAssemblyReference.cache
+C:\Users\Ahmed\Desktop\Assembler +Testcase\Assembler\Assembler\obj\Debug\Assembler.Form1.resources
+C:\Users\Ahmed\Desktop\Assembler +Testcase\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
+C:\Users\Ahmed\Desktop\Assembler +Testcase\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache
+D:\Education\__Spring 2018\Computer Architecture - CMPN301\Project\______OUR\Assembler + Testcase\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.exe
+D:\Education\__Spring 2018\Computer Architecture - CMPN301\Project\______OUR\Assembler + Testcase\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.pdb
+D:\Education\__Spring 2018\Computer Architecture - CMPN301\Project\______OUR\Assembler + Testcase\Our Assembler\Assembler\Assembler\bin\Debug\Assembler.exe
+D:\Education\__Spring 2018\Computer Architecture - CMPN301\Project\______OUR\Assembler + Testcase\Our Assembler\Assembler\Assembler\bin\Debug\Assembler.pdb
+D:\Education\__Spring 2018\Computer Architecture - CMPN301\Project\______OUR\Assembler + Testcase\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.csprojResolveAssemblyReference.cache
+D:\Education\__Spring 2018\Computer Architecture - CMPN301\Project\______OUR\Assembler + Testcase\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.Form1.resources
+D:\Education\__Spring 2018\Computer Architecture - CMPN301\Project\______OUR\Assembler + Testcase\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
+D:\Education\__Spring 2018\Computer Architecture - CMPN301\Project\______OUR\Assembler + Testcase\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache
+C:\Users\Mohamed\Desktop\Projects\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.exe
+C:\Users\Mohamed\Desktop\Projects\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.pdb
+C:\Users\Mohamed\Desktop\Projects\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\bin\Debug\Assembler.exe
+C:\Users\Mohamed\Desktop\Projects\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\bin\Debug\Assembler.pdb
+C:\Users\Mohamed\Desktop\Projects\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.csprojResolveAssemblyReference.cache
+C:\Users\Mohamed\Desktop\Projects\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.Form1.resources
+C:\Users\Mohamed\Desktop\Projects\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
+C:\Users\Mohamed\Desktop\Projects\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\old\project 18\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.exe
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\old\project 18\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.pdb
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\old\project 18\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\bin\Debug\Assembler.exe
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\old\project 18\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\bin\Debug\Assembler.pdb
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\old\project 18\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.csprojResolveAssemblyReference.cache
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\old\project 18\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.Form1.resources
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\old\project 18\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\old\project 18\Project_ComputerArch\Assembler\Our Assembler\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.exe
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.pdb
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.Properties.Resources.resources
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.csproj.GenerateResource.Cache
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\bin\Debug\Assembler.exe
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\bin\Debug\Assembler.pdb
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.Main.resources
+D:\CUFE\6th_Semester\CMPN301_Computer Architecture\New 2020\Project\Assembler\Assembler\obj\Debug\Assembler.SplachScreen.resources
